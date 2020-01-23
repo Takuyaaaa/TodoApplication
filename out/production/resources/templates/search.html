@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::headAndNavBar"></head>
+<main>
+    <!-- 検索フォームに対応 -->
+    <form action="/search/result" method="get">
+        <input name="searchWord" th:value="${searchWord}" type="text"/>
+        <input type="submit" value="検索"/>
+    </form>
+    <!-- resultはserviceクラスのsearchTodoで定義されている。検索該当件数を表示するメッセージに対応 -->
+    <p th:text="${resultComment}"></p>
+    <div th:unless="${#lists.isEmpty(searchWord)}">
+        <table th:each="obj : ${todoList}">
+            <tr>
+                <td th:text="${obj.name}"></td>
+            </tr>
+            <tr>
+                <td th:text="|期限：*{#temporals.format(obj.deadline,'YYYY年M月d日')}|"></td>
+            </tr>
+            <tr>
+                <td th:text="|作成日：*{#temporals.format(obj.createdDate,'YYYY年M月d日')}|"></td>
+            </tr>
+            <tr>
+                <td>
+                    <form th:action="@{'/{id}/toggle_situation'(id=${obj.id})}" th:method="patch">
+                        <input name="searchWord" th:value="${searchWord}" type="hidden"/>
+                        <input th:if="${obj.situation}" type="submit" value="完了">
+                        <input th:unless="${obj.situation}" type="submit" value="未完了">
+                    </form>
+                </td>
+                <td><a th:href="@{'/{id}/edit'(id=${obj.id})}">編集</a></td>
+            </tr>
+            <br/>
+        </table>
+    </div>
+</main>
+</body>
+</html>

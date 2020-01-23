@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::headAndNavBar"></head>
+<main>
+    <h1 th:text="${message}"></h1>
+    <!-- 新規Todo作成フォームに対応 -->
+    <form action="/register" class="form" method="post" th:object="${todoForm}">
+        <table>
+            <tr>
+                <td>ToDo名</label></td>
+                <td><input th:field="*{name}" type="text"/></td>
+            </tr>
+            <tr>
+                <td>期限</td>
+                <td><input th:field="*{deadline}" type="date"/></td>
+                <td><input type="submit" value="ToDoの追加"/></td>
+            </tr>
+            <!-- validationを通過しなかった場合にはエラーを表示 -->
+            <p style="color: red" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
+            <p style="color: red" th:errors="*{deadline}" th:if="${#fields.hasErrors('deadline')}"></p>
+        </table>
+    </form>
+    <hr/>
+    <!-- 現在保存されているTodoの一覧に対応 -->
+    <!-- もし登録されているTodoが存在する場合には一覧を、そうでない場合には対応するメッセージを表示 -->
+    <table th:each="obj : ${datalist}" th:if="${datalist.size() > 0}">
+        <tr>
+            <td th:text="${obj.name}"></td>
+        </tr>
+        <tr>
+            <td th:text="|期限：*{#temporals.format(obj.deadline,'YYYY年M月d日')}|"></td>
+        </tr>
+        <tr>
+            <td th:text="|作成日：*{#temporals.format(obj.createdDate,'YYYY年M月d日')}|"></td>
+        </tr>
+        <tr>
+            <td>
+                <form th:action="@{'/{id}/toggle_situation'(id=${obj.id})}" th:method="patch">
+                    <input th:if="${obj.situation}" type="submit" value="完了">
+                    <input th:unless="${obj.situation}" type="submit" value="未完了">
+                </form>
+            </td>
+            <td><a th:href="@{'/{id}/edit'(id=${obj.id})}">編集</a></td>
+        </tr>
+        <br/>
+    </table>
+    <p th:unless="${datalist.size() > 0}">登録されたToDoはございません</p>
+</main>
+</body>
+</html>

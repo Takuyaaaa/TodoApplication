@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::headAndNavBar"></head>
+<main>
+    <h1 th:text="${message}"></h1>
+    <form method="post" th:action="@{'/{id}/update'(id=${id})}" th:object="${todoForm}">
+        <table>
+            <input th:field="${id}" type="hidden"/>
+            <tr>
+                <td>ToDo名</td>
+                <td><input th:field="*{name}" type="text"/></td>
+            </tr>
+            <tr>
+                <td> 期限</td>
+                <td><input th:field="*{deadline}" type="date"/></td>
+                <td><input type="submit" value="更新"/></td>
+            </tr>
+            <p style="color: red" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
+            <p style="color: red" th:errors="*{deadline}" th:if="${#fields.hasErrors('deadline')}"></p>
+        </table>
+    </form>
+</main>
+</body>
+</html>

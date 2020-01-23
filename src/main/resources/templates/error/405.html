@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headAndNavBar">
+    <head>
+        <link crossorigin='anonymous' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+              integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' rel='stylesheet'>
+        <meta charset="UTF-8">
+        <title>ToDoApp</title>
+        <style>
+            main {
+                padding-left: 100px;
+            }
+        </style>
+    </head>
+    <nav class='navbar navbar-expand-md navbar-dark bg-dark fixed-top'>
+        <ul class="navbar-nav mr-auto">
+            <a class='navbar-brand' href='/'>TODOリスト</a>
+        </ul>
+        <ul class="navbar-nav">
+            <a class='navbar-brand' href='/search'>検索</a>
+        </ul>
+    </nav>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+<main>
+    <h1>入力されたHTTPメソッドは対応していません</h1>
+    <a href="/">ToDoの一覧に戻る</a>
+</main>
+</body>
+</html>
